@@ -1,0 +1,36 @@
+begin model
+
+begin parameters
+	NaV 6.02e8 # Avogadro's Number (scaled to umol): M -> #/um^3
+	Vcell 1000 # Typical eukaryotic cell volume ~ 1000 um^3
+	A0 100  # Initial number of A molecules
+    B0 100  # Initial number of B molecules
+    ka 0.01 # A-B association rate constant
+    kd 1    # A-B dissociation rate constant
+end parameters
+
+begin molecule types
+	 A(b,b) # A molecule has two binding site for b
+	 B(a) # B molecule has one binding site for A
+end molecule types
+
+begin seed species
+	A(b,b) A0
+    B(a) B0
+end seed species
+
+begin observables
+	Molecules FreeAsites A(b)
+    Molecules FreeB B(a)
+    Molecules ABbonds A(b!1).B(a!1)
+    Species BAB B(a!1).A(b!1,b!2).B(a!2)
+end observables
+
+begin reaction rules
+	 A(b) + B(a) <-> A(b!1).B(a!1) ka, kd
+end reaction rules
+
+end model
+
+generate_network({overwrite=>1, print_iter=>1})
+simulate({method=>"ode",t_end=>10,n_steps=>200})
