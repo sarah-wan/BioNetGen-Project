@@ -1,7 +1,7 @@
 # BioNetGen-Project
 
-BMIF Project Aim:
-Explore the practical application of  BioNetGen and go through example models
+**BMIF Project Aim:**
+Explore the practical application of BioNetGen by experimenting with input of example models
 
 [`component-state-change.bngl`](component-state-change.bngl)
 : description.
@@ -12,4 +12,4 @@ Explore the practical application of  BioNetGen and go through example models
 [`compartments.bngl`](examples/compartments.bngl)
 : description.
 
-Original Examples derived from ['BNGTutorial'](https://github.com/RuleWorld/BNGTutorial/blob/master/README.md)
+Original Examples derived from [BNGTutorial](https://github.com/RuleWorld/BNGTutorial/blob/master/README.md)
