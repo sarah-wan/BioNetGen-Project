@@ -6,7 +6,7 @@ Explore the practical application of  BioNetGen and go through example models
 [`component-state-change.bngl`](component-state-change.bngl)
 : description.
 
-[`component-state-change.bngl`](examples/component-state-change.bngl)
+[`synthesis-degradation.bngl`](examples/synthesis-degradation.bngl)
 : description.
 
 [`compartments.bngl`](examples/compartments.bngl)
