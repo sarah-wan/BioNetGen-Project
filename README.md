@@ -1,8 +1,10 @@
 # BioNetGen-Project
 
 [`compartments.bngl`](examples/compartments.bngl)
-:description.
+: description.
+
 [`compartments.bngl`](examples/compartments.bngl)
-:description.
+: description.
+
 [`compartments.bngl`](examples/compartments.bngl)
-:description.
+: description.
