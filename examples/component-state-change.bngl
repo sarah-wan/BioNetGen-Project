@@ -1,1 +1,45 @@
+## title: ABp.bngl
+## description: Simple model of enzyme kinetics in which A is a kinase and B is a
+##              phosphorylabe substrate.
+## author: Original code by Jim Faeder, Code modified with added comments by Michelle Gomez 
+## date: 27Feb2018
+## note: Units consistent with uM for concentration, um^3=fL for volume
+begin model
+begin parameters
+    # Cell volume
+    V    1 # units: um^3
+    # Conversion factor from uM to 1/um^3
+    NaV  602*V
+    # Rate constants
+    kp1  1.0/(NaV) # 1/uM 1/s -> 1/molecules 1/s , ligand-receptor association 
+    km1  1.0e-1 # 1/s , ligand- receptor dissociation 
+    k2   1.0e-2 # 1/s , diamer formation 
 
+   # Initial concentrations
+    A0   10.01*NaV # uM -> molecules/cell
+    B0   1.0*NaV  # uM -> molecules/cell
+end parameters
+begin molecule types
+    A(b) # A has a component “b” 
+    B(a,Y~0~p) # B has components  “a” and “Y” with two possible states of Y, unphosphorylated and phosphorylated
+end molecule types
+begin seed species
+    A(b)      A0 # A(b) starts off with intial concetration A0
+    B(a,Y~0)  B0 # "~" declares state of component so B starts off Unphosphorylated with initial concentration B0
+end seed species
+begin observables
+    Molecules Bu B(a,Y~0) # Bu variable is B at unphosphorylated state 
+    Molecules Bp B(a,Y~p) # Bp variable is B at phosphorylated state 
+    # AB is the ligand-receptor complex, "." concatinates two molecules. Binding is at component "b" and "a" of A and B respectively  
+    Molecules AB A(b!1).B(a!1)  
+end observables
+begin reaction rules
+# ligand-receptor bind rule, A + B <-> AB  using ligand receptor association and dissociation rate constants
+    ABbind: A(b) + B(a,Y~0) <-> A(b!1).B(a!1,Y~0) kp1, km1
+# The making of product, Bp, rule, AB <-> A + Bp  using diamer formation rate constant 
+    ABphos: A(b!1).B(a!1,Y~0) -> A(b) + B(a,Y~p) k2
+end reaction rules
+end model
+
+# simulate the expanded network use ODE's
+simulate({method=>"ode", t_end=>2.5,n_steps=>1000})
