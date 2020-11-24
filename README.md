@@ -3,10 +3,10 @@
 BMIF Project Aim:
 Explore the practical application of  BioNetGen and go through example models
 
-[`compartments.bngl`](examples/compartments.bngl)
+[`component-state-change.bngl`](component-state-change.bngl)
 : description.
 
-[`compartments.bngl`](examples/compartments.bngl)
+[`component-state-change.bngl`](examples/component-state-change.bngl)
 : description.
 
 [`compartments.bngl`](examples/compartments.bngl)
