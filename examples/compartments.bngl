@@ -1,3 +1,4 @@
+## title: LRR_comp.bngl
 ## Compartmental version of ligand-receptor binding and dimerization model expressed in cell units:
 #     time - seconds
 #     concentration - molecule number
@@ -40,27 +41,34 @@ end compartments
 begin molecule types
  	L(r,r) # L molecule has two binding sites for R
  	R(l) # R molecule has one binding site for L
- 	T(l) # T molecule has one binding site for L
+
+ 	S(t,t)
+ 	T(s)
 end molecule types
 
 begin species
  	@EC:L(r,r) L0/2 # L0 represents # of sites as opposed to molecules
  	@PM:R(l) R0
- 	@Test2:T(l) R0
- 	
+ 	@Test2:T(s) R0
+ 	@PM:S(t,t) L0/2
 end species
 
 begin observables
   Molecules FreeR R(l)
   Molecules Bound L(r,r!1).R(l!1)
-  Molecules FreeT T(l)
   Species   Dimers R(l!1).L(r!1,r!2).R(l!2)
+  
+  Molecules FreeT T(s)
+  Molecules Bound2 S(t,t!1).T(s!1)
+  Species   Dimers2 T(s!1).S(t!1,t!2).T(s!2)
 end observables
 
 begin reaction rules
 	LBind:  L(r,r) + R(l) <-> L(r,r!1).R(l!1) kp1, km1
-	TBind:	L(r,r) + T(l) <-> L(r,r!1).T(l!1) kp1, km1
 	Dimer:  R(l) + L(r,r!1).R(l!1) <-> R(l!2).L(r!2,r!1).R(l!1) chi*kp1, km1
+	
+	SBind:  S(t,t) + T(s) <-> S(t,t!1).T(s!1) kp1, km1
+	Dimer2:  T(s) + S(t,t!1).T(s!1) <-> T(s!2).S(t!2,t!1).T(s!1) chi*kp1, km1
 end reaction rules
 end model
 
