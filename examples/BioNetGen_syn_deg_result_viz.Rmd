@@ -1,0 +1,81 @@
+---
+title: "BioNetGen Result Visualization"
+author: "Thi Minh Ngo"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+
+```{r}
+library(tidyverse)
+```
+
+
+
+Importing files
+```{r}
+toggle_bifurcation_X <- read.table("~/Desktop/BMIF6310/BioNetGen_R/toggle_bifurcation_X_tot.scan", dec=",", quote="\"")
+names(toggle_bifurcation_X) <- c("Kxy", "X_tot_fwd", "X_tot_bwd")
+
+toggle_bifurcation_Y <- read.table("~/Desktop/BMIF6310/BioNetGen_R/toggle_bifurcation_Y_tot.scan", dec=",", quote="\"")
+names(toggle_bifurcation_Y) <- c("Kxy", "Y_tot_fwd", "Y_tot_bwd")
+
+toggle_simulation <- read.table("~/Desktop/BMIF6310/BioNetGen_R/toggle.gdat", dec=",", quote="\"")
+names(toggle_simulation) <- c("Time", "X_tot", "Y_tot")
+
+toggle_simulation_X50_Y50 <- read.table("~/Desktop/BMIF6310/BioNetGen_R/syndeg_X50_Y50.gdat", dec=",", quote="\"")
+names(toggle_simulation_X50_Y50) <- c("Time", "X_tot", "Y_tot")
+```
+
+
+Reformatting result files
+```{r}
+toggle_bifurcation_X_long <- gather(toggle_bifurcation_X, direction, value, c(X_tot_fwd, X_tot_bwd), factor_key = TRUE)
+toggle_bifurcation_X_long$value <- as.numeric(as.character(toggle_bifurcation_X_long$value))
+toggle_bifurcation_X_long$Kxy <- as.numeric(as.character(toggle_bifurcation_X_long$Kxy))
+
+toggle_bifurcation_Y_long <- gather(toggle_bifurcation_Y, direction, value, c(Y_tot_fwd, Y_tot_bwd), factor_key = TRUE)
+toggle_bifurcation_Y_long$value <- as.numeric(as.character(toggle_bifurcation_Y_long$value))
+toggle_bifurcation_Y_long$Kxy <- as.numeric(as.character(toggle_bifurcation_Y_long$Kxy))
+
+toggle_simulation_long <- gather(toggle_simulation, species, concentration, c(X_tot, Y_tot))
+toggle_simulation_long$Time <- as.numeric(as.character(toggle_simulation_long$Time))
+toggle_simulation_long$concentration <- as.numeric(as.character(toggle_simulation_long$concentration))
+
+toggle_simulation_X50_Y50_long <- gather(toggle_simulation_X50_Y50, species, concentration, c(X_tot, Y_tot))
+toggle_simulation_X50_Y50_long$Time <- as.numeric(as.character(toggle_simulation_X50_Y50_long$Time))
+toggle_simulation_X50_Y50_long$concentration <- as.numeric(as.character(toggle_simulation_X50_Y50_long$concentration))
+```
+
+
+Visualization
+```{r}
+toggle_bifurcation_X_long %>% ggplot(aes(x = Kxy, y = value, group = direction, color = direction)) +
+  geom_line(size = 1) +
+  theme_classic()
+
+toggle_bifurcation_Y_long %>% ggplot(aes(x = Kxy, y = value, group = direction, color = direction)) +
+  geom_line(size = 1) +
+  theme_classic()
+
+toggle_simulation_long %>% ggplot(aes(x = Time, y = concentration, group = species, color = species)) +
+  geom_line(size = 0.7) +
+  theme_classic()
+
+toggle_simulation_X50_Y50_long %>% ggplot(aes(x = Time, y = concentration, group = species, color = species)) +
+  geom_line(size = 0.7) +
+  theme_classic()
+```
+
+
+
+
+
+
+
+
