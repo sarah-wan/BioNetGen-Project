@@ -3,7 +3,7 @@
 **BMIF Project Aim:**
 Explore the practical application of BioNetGen by experimenting with input of example models
 
-[`component-state-change.bngl`](component-state-change.bngl)
+[`component-state-change.bngl`](examples/component-state-change.bngl)
 : Simulating enzyme kinetics.
 
 [`synthesis-degradation.bngl`](examples/synthesis-degradation.bngl)
